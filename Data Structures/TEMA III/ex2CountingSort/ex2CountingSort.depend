@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1586364950 source:c:\users\matei\desktop\uni\sd\tema iii\ex2countingsort\main.cpp
+	<iostream>
+	<fstream>
+
