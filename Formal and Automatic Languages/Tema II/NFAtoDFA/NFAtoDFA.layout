@@ -2,26 +2,17 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5666" topLine="153" />
+		</Cursor>
+		<Folding>
+			<Collapse line="45" />
+		</Folding>
+	</File>
 	<File name="dfa" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="51" topLine="0" />
 		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="189" topLine="8" />
-		</Cursor>
-		<Folding>
-			<Collapse line="15" />
-			<Collapse line="45" />
-			<Collapse line="77" />
-			<Collapse line="84" />
-			<Collapse line="98" />
-			<Collapse line="103" />
-			<Collapse line="114" />
-			<Collapse line="159" />
-			<Collapse line="171" />
-			<Collapse line="207" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>

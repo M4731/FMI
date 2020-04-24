@@ -39,7 +39,7 @@ public:
 	bool isFinalState(int);
 	int deltaStar(int, string);
 
-	friend ostream& operator<< (ostream&, const DFA&);                   //creem o prieten metoda noua pentru supraincarcarea operatorului de afisare
+	friend ostream& operator<< (ostream&, const DFA&);                   //creem o metoda prieten noua pentru supraincarcarea operatorului de afisare
 };
 
 class NFA
@@ -207,7 +207,7 @@ DFA NFA::toDFA()
 int main()
 {
 	NFA M;
-	ifstream fin("dfa");
+	ifstream fin("dfa.txt");
 	fin >> M;
 	fin.close();
 
