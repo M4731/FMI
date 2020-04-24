@@ -6,6 +6,11 @@
 
 using namespace std;
 
+/*
+Am pus comentarii la tot ce am adaugat pentru a face transformarea.
+Restul codului (care nu are comentarii) este copy-paste din tema I.
+*/
+
 
 class DFA
 {
@@ -34,7 +39,7 @@ public:
 	bool isFinalState(int);
 	int deltaStar(int, string);
 
-	friend ostream& operator<< (ostream&, const DFA&);
+	friend ostream& operator<< (ostream&, const DFA&);                   //creem o prieten metoda noua pentru supraincarcarea operatorului de afisare
 };
 
 class NFA
@@ -66,7 +71,7 @@ public:
 	bool isFinalState(set<int>);
 	set<int> deltaStar(set<int>, string);
 
-	DFA toDFA();
+	DFA toDFA();                                                         //creem metoda noua pentru transformare
 };
 
 bool NFA::isFinalState(set<int> q)
@@ -152,10 +157,12 @@ istream& operator >> (istream& f, NFA& M)
 
 
 ostream& operator << (ostream& out, const DFA& D)
-{   cout<<"ajutor"<<endl;
-    out<<D.q0<<endl;
-    for ( auto i:D.delta )
-        out<<i.first.first<<" "<<i.first.second<<" "<<i.second<<endl;
+{
+    out<<D.q0<<endl;                                                     //afisam DFA-ul cu chestii de poo :D
+    for ( auto i:D.delta ){
+        out<<i.first.first<<" "<<i.first.second<<" "<<i.second;
+    out<<endl;
+    }
     for ( auto i:D.F )
         out<<i<<" ";
     out<<endl;
@@ -163,34 +170,36 @@ ostream& operator << (ostream& out, const DFA& D)
 
 DFA NFA::toDFA()
 {
-    auto alfabet = this -> Sigma;                     //copiem alfabetul
-    map < set<int>, int > x;                          //creem un map
-    map < int, set<int> > y;                          //map invers
-    set<int> newQ;                                    //Q nou
+    auto alfabet = this -> Sigma;                                        //copiem alfabetul
+    map < set<int>, int > x;                                             //creem un map
+    map < int, set<int> > y;                                             //map invers
+    set<int> newQ;                                                       //Q nou
     int q;
-    for ( auto i:q0 ) q = i;
-    newQ.insert(q);
+    for ( auto i:q0 ) q = i;                                             //q e nodul initial
+    newQ.insert(q);                                                      //bag nodul initial in multimea noua de stari
     x[newQ] = q;
     y[q] = newQ;
     set<int> f;
-    if( isFinalState(newQ) ) f.insert(q);
-    map<pair<int, char>, int> newDelta;               //delta nou
-    for ( int i=q; i<q+newQ.size(); i++ ){cout<<"p";
-        for ( auto c:alfabet )
+    if( isFinalState(newQ) ) f.insert(q);                                //f e multumea noua de stari finale
+    map<pair<int, char>, int> newDelta;                                  //delta nou
+    for ( int i=q; i<q+newQ.size(); i++ ){                               //mergem prin toate starile noi
+        for ( auto c:alfabet )                                           //fiecare litera din alfabet
         {
-            auto v = this->deltaStar(y[i],""+c);
-            if ( x.find(v)==x.end() ){                //daca nu exista nodul compus il facem
-                x[v] = q+newQ.size();
-                y[q+newQ.size()] = v;
-                if ( isFinalState(v) )
-                    f.insert(q+newQ.size());
-                newQ.insert(q+newQ.size());
+            auto v = this->deltaStar( y[i],string({c}) );                //starile multiple ale nodurilor reprezentate de nodul nou prin deltaStar cu litera respectiva
+            if (v.size()>0 ){                                            //cat timp primim cel putin un nod
+                if ( x.find(v)==x.end() ){                               //daca nu e deja in multimea existenta de noduri noi atunci il facem nod nou
+                    x[v] = q+newQ.size();
+                    y[q+newQ.size()] = v;
+                    if ( isFinalState(v) )
+                        f.insert(q+newQ.size());
+                    newQ.insert(q+newQ.size());
+                }
+                newDelta[{i,c}] = x[v];                                   //inseram drumul in newDelta
             }
-            newDelta[{i,c}] = x[v];
         }
     }
 
-    DFA D(newQ, alfabet, newDelta, q, f);
+    DFA D(newQ, alfabet, newDelta, q, f);                                 //creem si returnam un DFA nou
     return  D;
 }
 
