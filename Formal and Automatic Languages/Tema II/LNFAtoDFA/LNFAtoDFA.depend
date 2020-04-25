@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1587830742 source:c:\users\matei\desktop\uni\lfa\2\lnfatodfa\main.cpp
+	<iostream>
+	<map>
+	<string>
+	<set>
+	<fstream>
+
