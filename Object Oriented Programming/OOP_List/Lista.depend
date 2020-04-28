@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1585092453 source:c:\users\matei\desktop\uni\poo\classlist\main.cpp
+	<iostream>
+	"List.h"
+	"Nod.h"
+
+1585093751 c:\users\matei\desktop\uni\poo\classlist\list.h
+	"Nod.h"
+	<iostream>
+
+1585094084 c:\users\matei\desktop\uni\poo\classlist\nod.h
+	"List.h"
+
+1585094083 source:c:\users\matei\desktop\uni\poo\classlist\list.cpp
+	"List.h"
+
+1585094085 source:c:\users\matei\desktop\uni\poo\classlist\nod.cpp
+	"Nod.h"
+

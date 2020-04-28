@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1588063613 source:c:\users\matei\desktop\uni\poo\classfractionvector\fraction.cpp
+	"fraction.h"
+
+1588063432 source:c:\users\matei\desktop\uni\poo\classfractionvector\vector.cpp
+	"vector.hpp"
+	<exception>
+
+1588063389 c:\users\matei\desktop\uni\poo\classfractionvector\fraction.h
+	<iostream>
+
