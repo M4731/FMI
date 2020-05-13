@@ -1,0 +1,3 @@
+﻿  graph.cpp
+C:\Users\Matei\Desktop\UNI\SD\TEMA V\graph\graph\graph.cpp(22,11): warning C4018: '>=': signed/unsigned mismatch
+  graph.vcxproj -> C:\Users\Matei\Desktop\UNI\SD\TEMA V\graph\Debug\graph.exe
