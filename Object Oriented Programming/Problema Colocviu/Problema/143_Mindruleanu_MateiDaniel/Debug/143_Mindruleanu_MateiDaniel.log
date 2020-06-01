@@ -1,0 +1,7 @@
+﻿  143_Mindruleanu_MateiDaniel.cpp
+G:\github\Object Oriented Programming\Problema Colocviu\Problema\143_Mindruleanu_MateiDaniel\143_Mindruleanu_MateiDaniel.cpp(257,27): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+G:\github\Object Oriented Programming\Problema Colocviu\Problema\143_Mindruleanu_MateiDaniel\143_Mindruleanu_MateiDaniel.cpp(262,27): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+G:\github\Object Oriented Programming\Problema Colocviu\Problema\143_Mindruleanu_MateiDaniel\143_Mindruleanu_MateiDaniel.cpp(272,35): warning C4566: character represented by universal-character-name '\u0103' cannot be represented in the current code page (1252)
+G:\github\Object Oriented Programming\Problema Colocviu\Problema\143_Mindruleanu_MateiDaniel\143_Mindruleanu_MateiDaniel.cpp(291,35): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+G:\github\Object Oriented Programming\Problema Colocviu\Problema\143_Mindruleanu_MateiDaniel\143_Mindruleanu_MateiDaniel.cpp(305,47): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+  143_Mindruleanu_MateiDaniel.vcxproj -> G:\github\Object Oriented Programming\Problema Colocviu\Problema\Debug\143_Mindruleanu_MateiDaniel.exe
