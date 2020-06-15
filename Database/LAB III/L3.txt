@@ -1,0 +1,168 @@
+--1
+
+SELECT e.first_name, TO_CHAR(e.hire_date,'Month') "month", 
+    TO_CHAR(e.hire_date,'YYYY') "year"
+FROM employees e JOIN employees gates
+ON e.department_id = gates.department_id
+WHERE gates.last_name = 'Gates' AND e.last_name not like 'Gates' AND
+    e.first_name like '%e%';
+    
+--2
+
+SELECT UNIQUE e.employee_id, e.first_name, e.last_name, e.department_id, 
+    d.department_name
+FROM employees e JOIN employees vec ON e.department_id = vec.department_id
+    JOIN departments d ON d.department_id = e.department_id
+WHERE vec.last_name like '%t%'
+ORDER BY e.first_name;
+
+--3
+
+SELECT e.first_name, e.salary, j.job_title, l.city, c.country_name
+FROM employees e JOIN employees king ON e.manager_id = king.employee_id
+    JOIN jobs j ON e.job_id = j.job_id
+    JOIN departments d ON d.department_id = e.department_id
+    JOIN locations l ON l.location_id = d.location_id
+    JOIN countries c ON c.country_id = l.country_id
+WHERE king.last_name = 'King';
+
+--4
+
+SELECT d.department_id, department_name, job_id, last_name, 
+    to_char(salary,'$99,999.00')
+FROM employees e JOIN departments d ON (e.department_id = d.department_id)
+WHERE lower(department_name) like '%ti%'
+ORDER BY department_name, last_name;
+
+--5
+
+SELECT *
+FROM departments FULL OUTER JOIN employees
+ON 1=1;
+
+--6
+
+SELECT department_id
+FROM departments
+WHERE lower(department_name) like '%re%'
+UNION
+SELECT department_id
+FROM departments d JOIN employees e
+USING (department_id)
+WHERE job_id like 'SA_REP';
+
+--7
+
+SELECT department_id
+FROM departments
+WHERE lower(department_name) like '%re%'
+UNION ALL
+SELECT department_id
+FROM departments d JOIN employees e
+USING (department_id)
+WHERE job_id like 'SA_REP';
+
+--8
+
+SELECT department_id "Cod departament"
+FROM departments
+MINUS
+SELECT department_id
+FROM employees;
+
+SELECT department_id
+FROM departments
+WHERE department_id NOT IN (SELECT DISTINCT NVL(department_id,0)
+                            FROM employees); 
+
+--9
+
+SELECT department_id
+FROM departments
+WHERE lower(department_name) like '%re%'
+INTERSECT
+SELECT department_id
+FROM departments d JOIN employees e
+USING (department_id)
+WHERE job_id like 'HR_REP';
+
+--10
+
+SELECT last_name, hire_date
+FROM employees
+WHERE hire_date > (SELECT hire_date
+                   FROM employees
+                   WHERE last_name='Gates');
+
+--11
+
+SELECT last_name, salary
+FROM employees
+WHERE department_id = (SELECT department_id
+                       FROM employees
+                       WHERE last_name like 'Gates')
+MINUS 
+SELECT last_name, salary
+FROM employees
+WHERE last_name like 'Gates'
+UNION
+SELECT last_name, salary
+FROM employees
+WHERE last_name like 'King';
+
+--12
+
+SELECT last_name, salary
+FROM employees
+WHERE manager_id = (SELECT employee_id
+                    FROM employees
+                    WHERE manager_id is null);
+
+--13
+
+SELECT last_name, department_id, salary
+FROM employees
+WHERE (department_id, salary) IN (SELECT department_id, salary
+                                  FROM employees
+                                  WHERE commission_pct is not null);
+
+--14
+
+SELECT employee_id, last_name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary)
+                FROM employees);
+
+--15
+
+SELECT employee_id, last_name
+FROM employees
+WHERE (salary+salary*NVL(commission_pct,0)) > (SELECT max(salary)
+                                              FROM employees
+                                              WHERE job_id like '%CLERK%');
+
+--16
+SELECT e.first_name, d.department_name, e.salary
+FROM employees e JOIN departments d 
+USING (department_id)
+WHERE e.commission_pct is null AND e.manager_id IN (SELECT employee_id 
+                                                    FROM employees
+                                                    WHERE commission_pct is not null);
+
+--17
+
+SELECT last_name, department_id, salary, job_id, employee_id
+FROM employees
+WHERE (nvl(commission_pct, -1), salary) IN (SELECT nvl(commission_pct, -1), salary
+                                            FROM employees e join departments d
+                                            ON e.department_id = d.department_id
+                                            JOIN locations l
+                                            ON l.location_id = d.location_id
+                                            WHERE city like 'Oxford');
+                                        
+--18
+
+SELECT e.first_name, e.last_name, e.department_id, e.salary
+FROM employees e JOIN departments d ON e.department_id = d.department_id
+                JOIN locations l ON l.location_id = d.location_id
+WHERE city like 'Toronto';
