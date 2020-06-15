@@ -1,0 +1,133 @@
+SELECT * FROM employees;
+
+DESC employees;
+
+--1
+
+DESC employees;
+
+--2
+
+SELECT * 
+FROM employees;
+
+--3
+
+SELECT * 
+FROM jobs;
+
+--4
+
+SELECT employee_id, first_name ||' '|| last_name "name", job_id, hire_date
+FROM employees;
+
+--5
+
+SELECT job_id 
+FROM employees;
+
+SELECT DISTINCT job_id 
+FROM employees;
+
+--6
+
+SELECT first_name || ' ' || last_name || ' , ' || job_title "Angajat si titlu"
+FROM employees e join jobs j
+USING (job_id);
+
+--7
+
+SELECT first_name || ' ' || last_name "name", salary
+FROM employees
+WHERE salary > 2850;
+
+--8 
+
+SELECT first_name || ' ' || last_name "name", department_id
+FROM employees
+WHERE employee_id = 105;
+
+--9 
+
+SELECT first_name || ' ' || last_name "name" , salary
+FROM employees
+WHERE salary < 1500 or salary > 2850
+ORDER BY salary;
+
+SELECT first_name || ' ' || last_name "name" , salary
+FROM employees
+WHERE salary BETWEEN 3000 and 7000;
+
+--10
+
+SELECT first_name || ' ' || last_name "name", job_id , hire_date
+FROM employees
+WHERE hire_date BETWEEN '20-FEB-1987' AND '1-MAY-1989'
+ORDER BY hire_date;
+
+--11
+
+SELECT first_name || ' ' || last_name as "name" , department_id
+FROM employees
+WHERE department_id in (10,30)
+ORDER BY first_name;
+
+--12
+
+SELECT first_name || ' ,' || last_name as "angajat" , salary as "salariu lunar"
+FROM employees
+WHERE department_id in (10,30) and salary > 1500
+ORDER BY first_name;
+
+--13
+
+SELECT TO_CHAR(SYSDATE,'DAY')
+FROM dual;
+
+--14
+
+SELECT first_name , hire_date
+FROM employees
+WHERE hire_date LIKE ('%87%');
+
+SELECT first_name , hire_date
+FROM employees
+WHERE TO_CHAR(hire_date,'YYYY') = '1987';
+
+--15
+
+SELECT first_name , job_id 
+FROM employees
+WHERE manager_id is null;
+
+--16
+
+SELECT first_name, salary, commission_pct
+FROM employees
+WHERE commission_pct is not null
+ORDER BY salary DESC ,commission_pct DESC;
+
+--17
+
+SELECT first_name, salary, commission_pct
+FROM employees
+ORDER BY salary DESC ,commission_pct DESC;
+
+--18
+
+SELECT first_name
+FROM employees
+WHERE UPPER(first_name) LIKE '__A%';
+
+--19
+
+SELECT first_name 
+FROM employees 
+WHERE UPPER(first_name) LIKE '%L%L%' AND ( department_id = 30 or manager_id = 102);
+
+--20
+
+SELECT first_name , job_id , salary
+FROM employees
+WHERE (job_id LIKE '%CLERK%' OR job_id LIKE '%REP%') AND salary not in (1000,2000,3000);
+

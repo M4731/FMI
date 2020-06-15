@@ -1,0 +1,158 @@
+--1
+SELECT first_name || ' castiga ' || salary ||  ' lunar dar doreste ' || 3*salary as "Salariu ideal"
+FROM employees;
+
+--2
+
+SELECT INITCAP(first_name) "nume", UPPER(last_name) "prenume", LENGTH(last_name) "lungime"
+FROM employees
+WHERE UPPER(first_name) like 'J%' OR UPPER(first_name) like 'M%' OR SUBSTR(UPPER(first_name),3,1) = 'A'
+ORDER BY LENGTH(last_name) DESC;
+
+--3
+
+SELECT employee_id, first_name, last_name, department_id
+FROM employees
+WHERE TRIM(UPPER(first_name)) = 'STEVEN';
+
+--4
+
+SELECT employee_id, first_name, last_name, LENGTH(first_name), INSTR(UPPER(first_name),'A')
+FROM employees
+WHERE lower(first_name) like '%e';
+
+--5
+
+SELECT *
+FROM employees
+WHERE mod(ROUND(SYSDATE - hire_date), 7) = 0;
+
+--6
+
+SELECT employee_id, first_name, salary, ROUND(salary+0.15*salary,2) "Salariu nou", 
+    ROUND(salary+0.15*salary,2)/100 "Numar sute"
+FROM employees
+WHERE mod(salary, 1000) != 0;
+
+--7
+
+SELECT first_name "Nume Angajat", RPAD(hire_date,20) "Data Angajarii"
+FROM employees
+WHERE commission_pct is not null;
+
+--8
+
+SELECT TO_CHAR(SYSDATE+30,'MON DD YYYY HH24:MI:SS') "Data"
+FROM dual;
+
+--9
+
+SELECT ceil(TO_DATE('31-Dec-' || TO_CHAR(sysdate,'YY'))- sysdate +1) "days till next year"
+FROM dual;
+
+--10
+
+SELECT TO_CHAR(SYSDATE+0.5,'MON DD YYYY HH24:MI:SS') "Data"
+FROM dual;
+
+--11
+
+SELECT CONCAT(last_name, first_name), hire_date, next_day(add_months(hire_date,6),'mon') "Negociere"
+FROM employees;
+
+--12
+
+SELECT last_name, round(months_between(sysdate, hire_date)) "Luni lucrate"
+FROM employees
+ORDER BY "Luni lucrate";
+
+--13
+
+SELECT first_name, NVL(TO_CHAR(commission_pct), 'Fara Comision') "Comision"
+FROM employees;
+
+--14
+
+SELECT last_name, salary, commission_pct
+FROM employees
+WHERE (salary + salary * NVL(commission_pct,0) ) > 10000;
+
+--15
+
+SELECT last_name, job_id, salary, DECODE(LOWER(job_id), 
+                                            'it_prog', (salary+0.1*salary), 
+                                            'st_clerk', (salary+0.15*salary), 
+                                            'sa_rep', (salary+0.25*salary), 
+                                            salary) "Salariu negoviat"
+FROM employees;
+
+--16
+
+SELECT employee_id, department_name
+FROM employees join departments
+USING (department_id);
+
+--17
+
+SELECT UNIQUE job_id, job_title
+FROM jobs join employees
+USING (job_id)
+WHERE department_id = 30;
+
+--18
+
+SELECT first_name, department_name, location_id
+FROM employees e, departments d
+WHERE e.department_id = d.department_id AND commission_pct is not null ;
+
+--19
+
+SELECT first_name, job_title, department_name
+FROM jobs j JOIN employees e USING(job_id) 
+            JOIN departments d USING(department_id)
+            JOIN locations l USING(location_id)
+WHERE city like 'Oxford';
+
+--20
+
+SELECT ang.employee_id Ang#, ang.last_name Angajat, sef.employee_id Mgr#,
+sef.last_name Manager
+FROM employees ang JOIN employees sef
+ON ang.manager_id = sef.employee_id;
+
+--21
+
+SELECT ang.employee_id Ang#, ang.last_name Angajat, sef.employee_id Mgr#,
+sef.last_name Manager
+FROM employees ang LEFT JOIN employees sef
+ON ang.manager_id = sef.employee_id;
+
+--22
+
+SELECT ang.last_name "numele angajatului", ang.department_id, 
+colo.last_name "nume coleg"
+FROM employees ang JOIN employees colo
+ON ang.department_id = colo.department_id
+WHERE ang.employee_id != colo.employee_id;
+
+--23
+
+SELECT last_name, job_id, job_title, department_name, salary
+FROM employees e JOIN jobs j 
+USING (job_id)
+LEFT JOIN departments d
+USING (department_id);
+
+--24
+
+SELECT e.last_name, e.hire_date
+FROM employees e, employees gates
+WHERE e.hire_date > gates.hire_date AND gates.last_name = 'Gates';
+
+--25
+
+SELECT e.last_name "Angajat", e.salary, e.hire_date "Data_ang", 
+m.last_name "Manager", m.hire_date "Data_mgr"
+FROM employees e join employees m
+ON e.manager_id = m.employee_id
+WHERE e.hire_date < m.hire_date;
