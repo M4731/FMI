@@ -1,0 +1,179 @@
+--1
+
+SELECT *
+FROM employees
+WHERE employee_id IN (SELECT employee_id
+                      FROM works_on
+                      WHERE project_id IN (SELECT project_id 
+                                           FROM projects
+                                           WHERE start_date >= to_date('01.jan.2006')
+                                                AND start_date < to_date('01.jul.2006')
+                                          )
+                      GROUP BY employee_id
+                      HAVING count(employee_id) = (SELECT count(employee_id)
+                                                   FROM projects
+                                                   WHERE start_date >= to_date('01.jan.2006')
+                                                     AND start_date < to_date('01.jul.2006')
+                                                   )
+                       );
+
+--2
+
+SELECT *
+FROM projects
+WHERE project_id IN (SELECT project_id
+                     FROM works_on
+                     WHERE employee_id IN (SELECT employee_id
+                                           FROM job_history
+                                           GROUP BY employee_id
+                                           HAVING count(employee_id) = 2
+                                         )
+                    GROUP BY project_id
+                    HAVING count(project_id) = (SELECT count(count(employee_id))
+                                                FROM job_history
+                                                GROUP BY employee_id
+                                                HAVING count(employee_id) = 2)
+                    );
+
+--3
+
+SELECT count(employee_id) "Nr"
+FROM employees
+WHERE employee_id IN (SELECT employee_id
+                      FROM job_history
+                      GROUP BY employee_id
+                      HAVING count(job_id) > 1
+                     );
+
+--4
+
+SELECT count(e.employee_id) "Nr angajati", c.country_id
+FROM employees e JOIN departments d ON e.department_id = d.department_id
+                 JOIN locations l ON l.location_id = d.location_id
+                 JOIN countries c ON l.country_id = c.country_id
+GROUP BY c.country_id;
+
+--5
+
+SELECT e.employee_id, wo.project_id
+FROM works_on wo RIGHT JOIN employees e
+                 ON e.employee_id = wo.employee_id;
+
+--6 
+
+SELECT *
+FROM employees
+WHERE department_id IN (SELECT department_id
+                        FROM employees
+                        WHERE employee_id IN (SELECT project_manager
+                                              FROM projects)
+                       );
+
+--7
+
+SELECT *
+FROM employees
+WHERE department_id NOT IN (SELECT department_id
+                            FROM employees
+                            WHERE employee_id IN (SELECT project_manager
+                                                  FROM projects)
+                           );
+
+--8
+
+SELECT department_id 
+FROM employees
+GROUP BY department_id
+HAVING avg(salary) > &p;
+
+--9
+
+SELECT * 
+FROM employees
+WHERE employee_id IN (SELECT employee_id 
+                      FROM works_on
+                      WHERE project_id IN (SELECT project_id
+                                           FROM projects
+                                           WHERE project_manager = 102)
+                      MINUS 
+                      SELECT employee_id 
+                      FROM works_on
+                      WHERE project_id NOT IN (SELECT project_id
+                                               FROM projects
+                                               WHERE project_manager = 102)
+                     );
+
+--10
+
+SELECT first_name, last_name, employee_id
+FROM employees
+WHERE employee_id IN (SELECT employee_id
+                      FROM works_on
+                      WHERE project_id IN (SELECT project_id
+                                           FROM works_on
+                                           WHERE employee_id = 200
+                                          )
+                      GROUP BY employee_id
+                      HAVING count(*) >= (SELECT count(project_id)
+                                          FROM works_on
+                                          WHERE employee_id = 200)
+                     )
+    AND employee_id != 200;
+
+SELECT first_name, last_name, employee_id
+FROM employees
+WHERE employee_id IN (SELECT UNIQUE employee_id
+                      FROM works_on
+                      WHERE project_id IN (SELECT project_id
+                                           FROM works_on
+                                           WHERE employee_id = 200
+                                          )
+                     MINUS
+                     SELECT UNIQUE employee_id
+                     FROM works_on
+                     WHERE project_id NOT IN (SELECT project_id
+                                              FROM works_on
+                                              WHERE employee_id = 200
+                                             )
+                     )
+    AND employee_id != 200;
+
+--11
+
+SELECT first_name, last_name, employee_id
+FROM employees
+WHERE employee_id IN (SELECT employee_id
+                      FROM works_on
+                      WHERE project_id IN (SELECT project_id
+                                           FROM works_on
+                                           WHERE employee_id = 200
+                                          )
+                      GROUP BY employee_id
+                      HAVING count(*) = (SELECT count(project_id)
+                                         FROM works_on
+                                         WHERE employee_id = 200)
+                      MINUS
+                      SELECT UNIQUE employee_id
+                      FROM works_on
+                      WHERE project_id NOT IN (SELECT project_id
+                                               FROM works_on
+                                               WHERE employee_id = 200
+                                              )
+                     )
+    AND employee_id != 200;
+
+--12
+
+SELECT * FROM JOB_GRADES;
+DESC JOB_GRADES;
+
+SELECT first_name, last_name, salary,
+    CASE
+    WHEN salary >= 2000 AND salary <= 5000 THEN 1
+    WHEN salary >= 5001 AND salary < 7001 THEN 2
+    WHEN salary >= 7001 AND salary < 10001 THEN 3
+    WHEN salary >= 10001 AND salary < 13001 THEN 4
+    WHEN salary >= 13001 AND salary < 16001 THEN 5
+    WHEN salary >= 16001 AND salary < 19001 THEN 6
+    END "grade"
+FROM employees;
