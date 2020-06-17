@@ -1,0 +1,215 @@
+--1
+
+CREATE TABLE EMP_mmi 
+AS SELECT * 
+   FROM employees;
+   
+CREATE TABLE DEPT_mmi
+AS SELECT * 
+   FROM departments;
+
+--2
+
+desc employees;
+desc EMP_mmi;
+desc departments;
+desc DEPT_mmi;
+
+--3
+
+SELECT * FROM employees;
+SELECT * FROM EMP_mmi;
+SELECT * FROM departments;
+SELECT * FROM DEPT_mmi;
+
+--4
+
+ALTER TABLE emp_mmi
+ADD CONSTRAINT pk_emp_mmi PRIMARY KEY(employee_id);
+
+ALTER TABLE dept_mmi
+ADD CONSTRAINT pk_dept_mmi PRIMARY KEY(department_id);
+
+ALTER TABLE emp_mmi
+ADD CONSTRAINT fk_emp_dept_mmi 
+    FOREIGN KEY(department_id) REFERENCES dept_mmi(department_id);
+
+--5
+
+INSERT INTO dept_mmi(department_id, department_name)
+VALUES (300, 'Programare');
+
+select * from dept_mmi;
+
+--6
+
+INSERT INTO emp_mmi(employee_id, first_name, last_name, email, hire_date, job_id)
+VALUES (99,'TZANCA','URAGANU','maruta',sysdate,'manele');
+
+--7
+
+INSERT INTO emp_mmi(employee_id, last_name,  email, hire_date, job_id, department_id)
+VALUES (278, 'nume_278', 'email_278', sysdate, 'sa_man',  300);
+commit;
+
+--8
+
+INSERT INTO emp_mmi (employee_id, last_name, email, hire_date, job_id, salary, commission_pct)
+VALUES (252, 'Nume252', 'nume252@emp.com', SYSDATE, 'SA_REP', 5000, NULL);
+
+SELECT employee_id, last_name, email, hire_date, job_id, salary, commission_pct
+FROM emp_mmi
+WHERE employee_id=252;
+
+INSERT INTO (SELECT employee_id, last_name, email, hire_date, job_id, salary,
+                commission_pct
+             FROM emp_mmi)
+VALUES (252, 'Nume252', 'nume252@emp.com',SYSDATE, 'SA_REP', 5000, NULL);
+
+SELECT employee_id, last_name, email, hire_date, job_id, salary, commission_pct
+FROM emp_mmi
+WHERE employee_id=252;
+
+--9
+
+CREATE TABLE EMP1_mmi
+AS SELECT *
+    FROM employees
+    WHERE commission_pct is not null;
+
+--10
+
+INSERT INTO emp_mmi
+SELECT 0, USER, USER, 'TOTAL', 'TOTAL', sysdate, 'TOTAL', sum(salary), 
+    round(avg(commission_pct)), null, null
+FROM employees;
+
+--11
+
+INSERT INTO emp_mmi (employee_id, first_name, last_name, email, hire_date,
+    job_id, salary)
+VALUES (&cod, '&&prenume', '&&nume', substr('&prenume',1,1)||substr('&nume',1,7),
+    sysdate, 'it_prog', &sal);
+UNDEFINE prenume;
+UNDEFINE nume;
+
+--12
+
+CREATE TABLE emp2_mmi
+AS SELECT *
+FROM employees
+WHERE 1=2;
+
+CREATE TABLE emp3_mmi
+AS SELECT *
+FROM employees
+WHERE 1=2;
+
+INSERT ALL
+WHEN salary < 5000 THEN INTO emp1_mmi
+WHEN salary >= 5000 AND salary <= 10000 THEN INTO emp2_mmi
+else into emp3_mmi
+    SELECT * FROM employees;
+
+--13
+
+CREATE TABLE emp0_mmi
+AS SELECT *
+FROM employees
+WHERE 1=2;
+
+INSERT FIRST
+    WHEN department_id = 80 THEN INTO emp0_mmi
+    WHEN salary < 5000 THEN INTO emp1_mmi
+    WHEN salary >= 5000 AND salary <= 10000 THEN INTO emp2_mmi
+    ELSE INTO emp3_mmi
+SELECT * FROM employees;
+
+SELECT * FROM emp0_mmi;
+SELECT * FROM emp1_mmi;
+SELECT * FROM emp2_mmi;
+SELECT * FROM emp3_mmi;
+
+--14
+
+UPDATE emp_mmi
+SET salary = 1.05*salary;
+
+--15
+
+UPDATE emp_mmi
+SET job_id = 'SA_REP'
+WHERE department_id = 80 AND commission_pct is not null;
+
+--16
+
+UPDATE emp_mmi
+SET salary = salary + 1000
+WHERE first_name like 'Douglas' AND last_name like 'Grant';
+
+UPDATE dept_mmi
+SET manager_id = 199
+WHERE department_id = 20;
+
+--17
+
+UPDATE emp_mmi e
+SET (salary, commission_pct) = (SELECT salary, commission_pct
+                                FROM emp_mmi
+                                WHERE e.manager_id = employee_id)
+WHERE salary = (SELECT min(salary)
+                FROM emp_mmi);
+
+--18
+
+UPDATE emp_mmi e
+SET EMAIL = substr(first_name,1,1) || CASE
+                                      WHEN last_name is not null
+                                      THEN last_name
+                                      ELSE '.'
+                                      END
+WHERE salary = (SELECT max(salary)
+                FROM emp_mmi
+                WHERE e.department_id = department_id);
+
+--19
+
+UPDATE emp_mmi e
+SET salary = (SELECT avg(salary)
+              FROM emp_mmi)
+WHERE hire_date = (SELECT min(hire_date)
+                   FROM emp_mmi
+                   WHERE e.department_id = department_id);
+
+--20
+
+DELETE FROM dept_mmi;
+
+--21
+
+DELETE FROM dept_mmi 
+WHERE department_id NOT IN (SELECT nvl(department_id,-100)
+                            FROM emp_mmi);
+
+--22
+
+INSERT INTO dept_mmi(department_id, department_name, manager_id, location_id)
+VALUES(69,'Casa Manelelor', 69, 1700);
+
+--23
+
+SAVEPOINT P;
+
+--24
+
+DELETE FROM dept_mmi 
+WHERE department_id <= 200 AND department_id >= 160;
+
+--25
+
+ROLLBACK TO P;
+
+INSERT INTO emp_mni (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission_pct, manager_id, department_id)
+VALUES (69, 'Marele', 'Dumnezeu', 'biroui@patriarhia.ro', '+40.21.337.08.30',TO_DATE('01.JAN.0001'), 'PREOT', 696969, null, null, 160);
+commit;
+
