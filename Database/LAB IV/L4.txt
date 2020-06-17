@@ -1,0 +1,200 @@
+--1
+
+SELECT *
+FROM employees
+WHERE first_name like 'Steven';
+
+--2
+
+SELECT max(salary) "Maxim", min(salary) "Minim", round(avg(salary),2) "Media", sum(salary) "Suma"
+FROM employees;
+
+--3
+
+SELECT job_id "Jobul", max(salary) "Maxim", min(salary) "Minim", round(avg(salary),2) "Media", 
+    sum(salary) "Suma"
+FROM employees
+GROUP BY job_id;
+
+--4
+
+SELECT count(employee_id), department_id
+FROM employees
+GROUP BY department_id;
+
+--5
+
+SELECT count(UNIQUE manager_id) "Nr. manageri"
+FROM employees;
+
+--6
+
+SELECT (max(salary) - min(salary)) "Diferenta"
+FROM employees;
+
+--7
+
+SELECT department_name, location_id, count(employee_id) "Nr. Angajati", 
+    round(avg(salary),2) "Salariu mediu"
+FROM employees e JOIN departments d 
+USING (department_id)
+GROUP BY department_name, location_id;
+
+--8
+
+SELECT employee_id, last_name, first_name
+FROM employees
+WHERE salary > (SELECT avg(salary)
+                FROM employees)
+ORDER BY salary desc;
+
+--9
+
+SELECT employee_id, salary
+FROM employees e
+WHERE salary = (SELECT min(salary)
+                FROM employees
+                GROUP BY manager_id
+                HAVING manager_id = e.manager_id)
+    AND salary > 1000
+ORDER BY salary desc;
+
+--10
+
+SELECT department_id, max(salary) "Salariu maxim"
+FROM departments join employees 
+USING (department_id)
+GROUP BY department_id
+HAVING max(salary) > 3000;
+
+--11
+
+SELECT min(avg(salary)) "Salariu mediu minim"
+FROM employees
+GROUP BY job_id;
+
+--12
+
+SELECT max(avg(salary)) "Salariu mediu maxim"
+FROM employees
+GROUP BY job_id;
+
+--13
+
+SELECT job_id, job_title, avg(salary)
+FROM jobs JOIN employees
+USING (job_id)
+GROUP BY job_id, job_title
+HAVING avg(salary) =  (SELECT min(avg(salary))
+                      FROM jobs JOIN employees
+                      USING (job_id)
+                      GROUP BY job_id, job_title);
+
+--14
+
+SELECT avg(salary)
+FROM employees
+HAVING avg(salary) > 2500;
+
+--15
+
+SELECT department_id, job_id, sum(salary)
+FROM employees
+GROUP BY department_id, job_id;
+
+--16
+
+SELECT department_id, department_name, count(employee_id)
+FROM departments JOIN employees 
+USING (department_id)
+GROUP BY department_id, department_name
+HAVING count(employee_id) < 4;
+
+SELECT department_id, department_name, count(employee_id) "Nr angajati"
+FROM departments JOIN employees 
+USING (department_id)
+GROUP BY department_id, department_name
+HAVING count(employee_id) = (SELECT max(count(employee_id))
+                             FROM employees
+                             GROUP BY department_id);
+
+--17
+
+select *
+FROM employees
+WHERE hire_date = (SELECT hire_date 
+                   FROM employees
+                   GROUP BY hire_date
+                   HAVING count(employee_id) = (SELECT max(count(employee_id))
+                                                FROM employees
+                                                GROUP BY hire_date));
+                                                
+--18
+
+SELECT count(count(department_id)) "Nr departamente"
+FROM employees
+GROUP BY department_id
+HAVING count(employee_id) > 15;
+
+--19
+
+SELECT department_id, sum(salary)
+FROM employees
+GROUP BY department_id
+HAVING count(employee_id) > 10 AND department_id <> 30
+ORDER BY sum(salary);
+
+--20
+
+SELECT employee_id, count(job_id)
+FROM job_history
+GROUP BY employee_id
+HAVING count(job_id) >= 2;
+
+--21
+
+SELECT round(avg(commission_pct),3) "Comision mediu"
+FROM employees;
+
+--22
+
+SELECT job_id, sum(decode(department_id, 30, salary)) "30", sum(decode(department_id, 50, salary)) "50",
+        sum(decode(department_id, 80, salary)) "80"
+FROM employees
+GROUP BY job_id;
+
+--23
+
+SELECT SUM(COUNT(employee_id)) "TOTAL", SUM(DECODE(TO_CHAR(hire_date,'YYYY'),'1997',COUNT(employee_id))) "1997",
+     SUM(DECODE(TO_CHAR(hire_date,'YYYY'),'1998',COUNT(employee_id))) "1998",
+     SUM(DECODE(TO_CHAR(hire_date,'YYYY'),'1999',COUNT(employee_id))) "1999",
+     SUM(DECODE(TO_CHAR(hire_date,'YYYY'),'2000',COUNT(employee_id))) "2000"
+FROM employees
+GROUP BY TO_CHAR(hire_date,'YYYY');
+
+--24
+
+SELECT d.department_id, department_name,a.suma
+FROM departments d, (SELECT department_id ,SUM(salary) suma
+                     FROM employees
+                     GROUP BY department_id) a
+WHERE d.department_id =a.department_id;
+
+--25
+
+SELECT first_name, salary, department_id, avg(salary)
+FROM employees
+GROUP BY department_id, first_name, salary;
+
+--26 
+
+SELECT last_name,salary,department_id, SalMediu, NrAng
+FROM employees JOIN(SELECT avg(salary) SalMediu, department_id, count(employee_id) NrAng
+                    FROM employees
+                    GROUP BY department_id)
+USING (department_id);
+
+
+
+
+

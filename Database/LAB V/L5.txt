@@ -1,0 +1,219 @@
+--0
+
+SELECT last_name, salary, department_id
+FROM employees e
+WHERE salary > (SELECT AVG(salary)
+                FROM employees
+                WHERE department_id = e.department_id);
+                
+SELECT e.last_name, e.salary, e.department_id, d.department_name, round(sal,2) "sal med", nremp
+FROM employees e, departments d, (SELECT department_id, avg(salary) sal, count(employee_id) nremp
+                                  FROM employees
+                                  GROUP BY department_id) aa
+WHERE e.department_id = d.department_id AND d.department_id = aa.department_id
+    AND salary > (SELECT AVG(salary)
+                  FROM employees
+                  WHERE department_id = e.department_id);
+
+--1
+
+SELECT last_name, salary
+FROM employees
+WHERE salary > (SELECT max(s)
+                FROM (SELECT department_id, round(avg(salary),2) s
+                      FROM employees
+                      GROUP BY department_id));
+
+SELECT last_name, salary
+FROM employees
+WHERE salary > ALL (SELECT round(avg(salary),2) s
+                    FROM employees
+                    GROUP BY department_id);
+
+--2 
+
+SELECT last_name, salary
+FROM employees e
+WHERE salary = (SELECT min(salary)
+                FROM employees
+                WHERE e.department_id = department_id);
+
+SELECT last_name, salary, department_id
+FROM employees
+WHERE (department_id, salary) IN (SELECT department_id, MIN(salary)
+                                  FROM employees
+                                  GROUP BY department_id);
+
+--3
+
+SELECT first_name, last_name
+FROM employees e, (SELECT UNIQUE department_id
+                   FROM employees
+                   WHERE salary = (SELECT max(salary)
+                                   FROM employees
+                                   WHERE department_id = 30)) s
+WHERE e.department_id = s.department_id;
+
+--4
+
+SELECT first_name, last_name
+FROM (SELECT first_name, last_name
+      FROM employees
+      ORDER BY salary desc)
+WHERE rownum < 4;
+
+
+--5
+
+SELECT employee_id, first_name, last_name
+FROM employees e 
+WHERE (SELECT count(*)
+       FROM employees
+       WHERE manager_id = e.employee_id) >= 2;
+       
+--6
+
+SELECT UNIQUE location_id
+FROM departments d
+WHERE (SELECT count(*)
+       FROM locations
+       WHERE d.location_id = location_id) >= 1;
+
+SELECT location_id
+FROM locations
+WHERE location_id IN (SELECT location_id
+                      FROM departments);
+
+--7
+
+SELECT department_id, department_name
+FROM departments
+MINUS 
+SELECT department_id, department_name
+FROM employees LEFT JOIN departments 
+USING (department_id);
+
+SELECT department_id, department_name
+FROM departments d
+WHERE NOT EXISTS (SELECT 'x'
+                  FROM employees
+                  WHERE department_id = d.department_id);
+
+--8
+
+WITH val_dep AS (SELECT department_name, SUM(salary) AS total
+                 FROM departments d join employees e ON (d.department_id = e.department_id)
+                 GROUP BY department_name
+                 ),
+    val_medie AS (SELECT SUM(total)/COUNT(*) AS medie
+              FROM val_dep)    
+SELECT *
+FROM val_dep
+WHERE total > (SELECT medie
+               FROM val_medie)
+ORDER BY department_name;
+
+--9
+
+SELECT e.employee_id, e.first_name, e.last_name, e.hire_date
+FROM employees e JOIN employees k
+ON e.manager_id = k.employee_id
+WHERE k.last_name like 'King' AND k.first_name like 'Steven'
+    AND TO_CHAR(e.hire_date,'YYYY') != '1970'
+    AND e.hire_date = (SELECT min(hire_date) 
+                       FROM employees
+                       WHERE manager_id = (SELECT employee_id
+                                           FROM employees
+                                           WHERE last_name like 'King' AND first_name like 'Steven')
+                      );
+
+
+WITH subord AS (SELECT employee_id,hire_date
+                FROM employees
+                WHERE manager_id = (SELECT employee_id
+                                    FROM employees
+                                    WHERE lower(last_name||first_name) = 'kingsteven')
+                ),
+vechime AS (SELECT employee_id
+            FROM subord
+            WHERE hire_date = (SELECT min(hire_date)
+                               FROM subord)
+            )
+SELECT employee_id, last_name, first_name, job_id, hire_date, manager_id
+FROM employees
+WHERE to_char(hire_date,'yyyy') != '1970' AND employee_id IN (SELECT employee_id
+                                                              FROM vechime);
+
+--10
+
+SELECT *
+FROM (SELECT *
+      FROM employees
+      ORDER BY salary desc)
+WHERE rownum < 11;
+
+--11
+
+SELECT 'Departamentul ' || department_name || ' este condus de ' ||
+ nvl(to_char(manager_id),'nimeni')|| ' si ' ||
+CASE
+WHEN (SELECT count(employee_id)
+      FROM employees
+      WHERE d.department_id = department_id) = 0
+THEN 'nu are salariati'
+ELSE 'are numarul de salariati ' || (SELECT count(employee_id)
+                                     FROM employees
+                                     WHERE d.department_id = department_id)
+END "Dep"
+FROM departments d ;
+
+--12
+
+SELECT first_name, last_name, nullif(length(first_name),length(last_name)) "lungime"
+FROM employees;
+       
+--13
+
+SELECT first_name, hire_date, salary, 
+    CASE
+    WHEN TO_CHAR(hire_date,'YYYY') like '1989'
+    THEN salary+0.2*salary
+    WHEN TO_CHAR(hire_date,'YYYY') like '1990'
+    THEN salary+0.15*salary
+    WHEN TO_CHAR(hire_date,'YYYY') like '1991'
+    THEN salary+0.1*salary
+    ELSE salary
+    END "salaryy"
+FROM employees;
+
+--14
+
+SELECT job_id,
+    CASE
+    WHEN lower(job_id) like 's%' 
+    THEN (SELECT sum(salary)
+          FROM employees
+          WHERE job_id = j.job_id)
+    WHEN job_id = (SELECT job_id
+                   FROM employees
+                   WHERE salary = (SELECT max(salary)
+                                   FROM employees)
+                   ) 
+    THEN (SELECT round(avg(salary))
+          FROM employees)
+    ELSE (SELECT min(salary)
+          FROM employees
+          WHERE job_id = j.job_id)
+END joburi
+FROM jobs j; 
+
+
+
+
+
+
+
+
+
+
+
