@@ -1,0 +1,197 @@
+--1
+
+CREATE TABLE angajati_mmi (cod_ang number(4) constraint p_key_mmi 
+                        primary key,
+                           nume varchar2(20) constraint and_nume_mmi
+                        not null,
+                           prenume varchar2(20),
+                           email char(15),
+                           data_ang date default sysdate,
+                           job varchar2(10),
+                           cod_sef number(4),
+                           salariu number(8,2) constraint ang_sal_mmi
+                        not null,
+                           cod_dep number(2)
+                          );
+--2   
+
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep)
+VALUES (100, 'Nume1', 'Prenume1', null, null, 'Director', null, 20000, 10);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep)
+VALUES (101, 'Nume2', 'Prenume2', 'Nume2', to_date('02.Feb.2004'), 
+    'Inginer', 100, 10000, 10);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep)
+VALUES (102, 'Nume3', 'Prenume3', 'Nume3', to_date('05.Jun.2004'), 
+    'Analist', 101, 5000, 20);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep)
+VALUES (103, 'Nume4', 'Prenume4', null, null, 'Inginer', 100, 9000, 20);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep)
+VALUES (104, 'Nume5', 'Prenume5', 'Nume5', null, 'Analist', 101, 3000, 30);
+
+--3
+
+ALTER TABLE angajati_mmi
+ADD(comision number(4,2));
+
+--4
+
+ALTER TABLE angajati_mmi
+MODIFY(salariu number(6,2));
+--nu merge
+
+--5
+
+ALTER TABLE angajati_mmi
+MODIFY(salariu number(8,2) default 1);
+
+--6
+
+ALTER TABLE angajati_mmi
+MODIFY(comision number(2,2), salariu number(10,2));
+
+--7
+
+UPDATE angajati_mmi
+SET comision = 0.1
+WHERE job like 'A%';
+
+--8
+
+ALTER TABLE angajati_mmi
+MODIFY(email varchar2(15));
+
+--9
+
+ALTER TABLE angajati_mmi
+ADD(nr_telefon varchar2(10) default '0769696969');
+
+--10
+
+ALTER TABLE angajati_mmi
+DROP COLUMN nr_telefon;
+
+--11
+
+CREATE TABLE departamente_mmi(cod_dep number(2),
+                              nume varchar2(15) constraint nume_dep_mmi
+                            not null,
+                              cod_director number(4)
+                              );
+                
+--12
+
+INSERT INTO departamente_mmi (cod_dep, nume, cod_director)
+VALUES (10, 'Administrativ', 100);
+INSERT INTO departamente_mmi (cod_dep, nume, cod_director)
+VALUES (20, 'Proiectare', 101);
+INSERT INTO departamente_mmi (cod_dep, nume, cod_director)
+VALUES (30, 'Programare', null);
+                            
+--13
+
+ALTER TABLE departamente_mmi
+MODIFY(cod_dep number(2) constraint cod_dep_mmi_pk primary key);
+
+--14
+
+ALTER TABLE angajati_mmi
+ADD CONSTRAINT fk_ang_dept_mmi FOREIGN KEY (cod_dep) REFERENCES departamente_mmi(cod_dep);
+
+--15
+
+CREATE TABLE angajati_mmi (cod_ang number(4),
+                           nume varchar2(20) constraint nume_mmi not null,
+                           prenume varchar2(20),
+                           email char(15),
+                           data_ang date default sysdate,
+                           job varchar2(10),
+                           cod_sef number(4),
+                           salariu number(8, 2) constraint salariu_mmi not null,
+                           cod_dep number(2),
+                           comision number(2,2),
+                           constraint nume_prenume_unique_mmi unique(nume,prenume),
+                           constraint verifica_sal_pnu check(salariu > 100*comision),
+                           constraint pk_angajati_mmi primary key(cod_ang),
+                           unique(email),
+                           constraint sef_mmi foreign key(cod_sef) references angajati_mmi(cod_ang),
+                           constraint fk_dep_mmi foreign key(cod_dep) references departamente_mmi (cod_dep),
+                           check(cod_dep > 0)
+                           );
+              
+--16
+
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep, comision)
+VALUES (100, 'Nume1', 'Prenume1', 'email1', sysdate, 'Director', null, 20000, 10, 0.1);
+INSERT INTO angajati_mmi
+VALUES (101, 'Nume2', 'Prenume2', 'emai12', to_date('02-02-2004','dd-mm-yyyy'),
+        'Inginer', 100, 10000, 10, 0.2);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep, comision)
+VALUES (102, 'Nume3', 'Prenume3', 'email3', to_date('05.Jun.2004'), 
+        'Analist', 101, 5000, 20, 0.1);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep, comision)
+VALUES (103, 'Nume4', 'Prenume4', 'email4', sysdate, 'Inginer', 100, 9000, 20, 0.1);
+INSERT INTO angajati_mmi (cod_ang, nume, prenume, email, data_ang, job, cod_sef,
+                    salariu, cod_dep, comision)
+VALUES (104, 'Nume5', 'Prenume5', 'email5', sysdate, 'Analist', 101, 3000, 30, 0.1);
+              
+--17
+
+SELECT *
+FROM tab;
+
+--18
+
+SELECT constraint_name, constraint_type, table_name
+FROM user_constraints
+WHERE lower(table_name) IN ('angajati_mmi', 'departamente_mmi');
+
+SELECT table_name, constraint_name, column_name
+FROM user_cons_columns
+WHERE LOWER(table_name) IN ('angajati_mmi', 'departamente_mmi');
+
+--19
+
+ALTER TABLE angajati_mmi
+MODIFY email char(15) constraint email_mmi not null;
+
+--20
+
+select * from departamente_mmi;
+select * from angajati_mmi;
+
+--21
+
+INSERT INTO departamente_mmi (cod_dep, nume)
+VALUES(60,'Analiza');
+
+--22
+
+DELETE FROM departamente_mmi
+WHERE cod_dep = 20;
+
+--23
+
+DELETE FROM departamente_mmi
+WHERE cod_dep = 60;
+
+--24
+
+ALTER TABLE angajati_mmi
+DROP constraint FK_DEP_MMI;
+
+ALTER TABLE angajati_mmi
+ADD constraint fk_dep_pnu_delcascade FOREIGN KEY(cod_dep)
+REFERENCES departamente_mmi (cod_dep) ON DELETE CASCADE;
+
+--25
+
+DELETE FROM departamente_mmi
+WHERE cod_dep = 20;
