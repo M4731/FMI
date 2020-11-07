@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h1>@ViewBag.Article.Title</h1>
+<p>@ViewBag.Article.Content</p>
+<small>@ViewBag.Article.Date.ToString()</small>
+
+<br />
+<a href="/Articles/listare">inapoi Index</a>
+
+<br />
+
+<form method="post" action="/Articles/Delete/@ViewBag.Article.Id">
+    @Html.HttpMethodOverride(HttpVerbs.Delete)
+    <button type="submit">Stergere articol</button>
+</form>
