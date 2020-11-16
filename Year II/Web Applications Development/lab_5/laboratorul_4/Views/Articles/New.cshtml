@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>Adaugare articol</h2>
+
+<form method="post" action="/Articles/New">
+    <label>Titlu articol</label>
+    <input type="text" name="Title" />
+
+    <hr />
+
+    <label>Continut articol</label>
+    <textarea type="text" name="Content"></textarea>
+
+    <hr />
+
+    <input type="hidden" name="Date" value="@DateTime.Now"/>
+
+    <hr />
+
+    <label>Selectati categoria</label>
+    <select name="CategoryId">
+        @foreach (var cat in ViewBag.Categories)
+        {
+            <option value="@cat.CategoryId"> @cat.CategoryName </option>
+        }
+    </select>
+
+    <br />
+
+    <button type="submit">Submit</button>
+</form>
+
+<!--ViewBag.Categories-->
+
