@@ -1,0 +1,34 @@
+﻿@model Laborator5App.Models.Article
+
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Articles"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.HiddenFor(m => m.Id)
+    <br />
+    @Html.Label("Title", "Titlu Articol")
+    <br />
+    @Html.Editor("Title")
+    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+    <br /><br />
+
+    @Html.Label("Content", "Continut Articol")
+    <br />
+    @Html.EditorFor(m => m.Content)
+    @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger" })
+    <br /><br />
+
+    @Html.HiddenFor(m => m.Date)
+    <br />
+
+    <label>Selectati categoria</label>
+    @Html.DropDownListFor(m => m.CategoryId,
+        new SelectList(Model.Categ, "Value", "Text"),
+        "Selectati categoria", new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+    <br />
+
+    <button class="btn btn-sm btn-success" type="submit">Modifica articol</button>
+}
+
