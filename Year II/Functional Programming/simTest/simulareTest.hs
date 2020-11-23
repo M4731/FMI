@@ -21,7 +21,8 @@ aux :: String -> Int
 aux "" = 0
 aux (h:t)
     | h `elem` ['a'..'m'] || h `elem` ['A'..'M'] = suma+1
-    | otherwise = suma-1
+    | h `elem` ['n'..'z'] || h `elem` ['N'..'Z'] = suma-1
+    | otherwise = suma
     where suma  = aux t  
 
 f1c :: String -> Bool
