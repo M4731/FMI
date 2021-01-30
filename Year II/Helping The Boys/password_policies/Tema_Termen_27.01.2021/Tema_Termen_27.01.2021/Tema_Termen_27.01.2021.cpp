@@ -203,7 +203,7 @@ public:
     void check(string const& s)
     {
         unsigned count = 0;
-        unsigned local = 0;
+        unsigned local = 1;
         for (unsigned i = 1; i < s.size(); i++)
         {
             char car = s[i];
