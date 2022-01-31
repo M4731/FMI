@@ -1,0 +1,9 @@
+IDA STAR
+
+Solutie: (1)r(0, 3)
+Cost: 0
+Lungime: 1
+----------------------
+Timp executie: 0.001001119613647461
+Nr maxim de noduri existente la un moment dat in memorie: 0
+Nr total de noduri generate: 0

@@ -1,0 +1,9 @@
+A STAR
+
+Solutie: (2)r(0, 3)-> (3)r(0, 2)-> (5)a(1, 2)-> (3)a(2, 2)-> (4)a(2, 3)-> (5)v(1, 3)-> (5)r(0, 3)
+Cost: 13
+Lungime: 7
+----------------------
+Timp executie: 0.0010004043579101562
+Nr maxim de noduri existente la un moment dat in memorie: 2
+Nr total de noduri generate: 8

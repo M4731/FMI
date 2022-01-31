@@ -1,0 +1,9 @@
+A STAR OPTIMIZAT
+
+Solutie: (1)r(0, 3)-> (2)r(0, 2)-> (4)a(1, 2)-> (2)a(2, 2)-> (3)a(2, 3)-> (4)v(1, 3)-> (4)r(0, 3)
+Cost: 13
+Lungime: 7
+----------------------
+Timp executie: 0.001001119613647461
+Nr maxim de noduri existente la un moment dat in memorie: 5
+Nr total de noduri generate: 8
