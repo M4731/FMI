@@ -1,0 +1,60 @@
+1. Care din urmatoarele functii este o functie de activare?
+A. MSE
+B. Tangenta hiperbolica
+C. SGD
+D. Leave-one-out
+
+2. Care este numarul total de parametri ai unei relete neuronale feedforward cu urmatoarea configuratie: 2 neuroni pe statul de intrare, 2 straturi ascunse a cate 4 neuroni si 3 neuroni pe stratul de iesire?
+A. 65
+B. 47
+C. 26
+D. 32
+
+3. Care este diferenta dintre underfitting si overfitting?
+A. Overfitting-ul este intotdeauna de preferat pentru ca duce la rezultate mai bune pe setul de test.
+B. Overfitting-ul este un fenomen comun in cazul modelelor foarte simple in timp ce underfitting-ul este un fenomen comun in cazul modelelor complexe.
+C. Underfitting-ul este intotdeauna de preferat pentru ca duce la rezultate mai bune pe setul de test.
+D. Overfitting-ul este in general un fenomen comun in cazul modelelor complexe in timp ce underfitting-ul este mai comun in cazul modelelor mai simple.
+
+4. Care este valoarea de iesire a perceptronului daca intrare=[-29.4, 32.4], ponderi=[-0.5, 5.2], bias=-111.43 (functia de activare - sign)?
+A. -239.28
+B. -1
+C. 273.16
+D. 1
+
+5. Avem 10 perechi concordante (P) si 4 perechi discordante (Q), n=7. Cat este corelatia Kendel Tau?
+A. 0.52
+B. 0.44
+C. 0.81
+D. 0.28
+
+6. Care este o metoda de evitarea suprainvatarii?
+A. adaugare perceptroni pe primul strat
+B. adaugare de straturi ascunse
+C. adaugare regularizare
+D. adaugare perceptroni pe straturile ascunse
+
+7. Pentru care dintre urmatoarele probleme putem masura performanta folosind intersectia supra reuniune?
+A. Estimarea veniturilor viitoare ale unei familii
+B. Identificarea limbii unui text
+C. Transferul stilului dintr-un domeniu in altul (translatia de imagini)
+D. Detectarea obiectelor dintr-o imagine
+
+8. Cat este valoarea functiei de pierdere hinge loss pentru y = [1, -1] si y_hat = [1.1, -0.7]?
+A. -0.3
+B. 0.2
+C. 0.4
+D. 0.3
+
+9. In urma antrenarii unui model de invatare automata, acuratetea pe setul de test este similara cu acuratetea pe setul de antrenare. In ce situatie suntem?
+A. Underfitting
+B. Underfitting si overfitting
+C. Overfitting
+D. Optimum
+
+10. Care afirmatie este adevarata pentru un niste date normalizate cu normalizarea L1?
+A. Suma valorilor absolute pentru un rand normalizat este 1
+B. Valorile datelor normalizate sunt intre 0 si 1
+C. Normalizarea L1 nu produce valori egale sau apropiate de 0
+D. Normalizarea L1 se aplica pe coloane, nu pe randuri
+
