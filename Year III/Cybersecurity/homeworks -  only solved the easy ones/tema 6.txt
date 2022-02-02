@@ -1,0 +1,9 @@
+Mîndruleanu Matei Daniel -  tema 2 SSI
+
+Exercitiul 1:
+    #Candidate 1 genereaza 0 (a xor a = 0)
+    #Candidate 2 genereaza un seed predictibil pentru care e usor de determinat pattern-ul.
+    #Candidate 3 genereaza o secventa de numere pana cand ajunge la 0, si apoi doar 0.
+
+
+

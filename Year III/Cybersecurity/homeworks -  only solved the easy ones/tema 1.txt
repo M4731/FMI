@@ -1,0 +1,45 @@
+Mîndruleanu Matei Daniel -  tema 1 SSI
+
+Exercitiul 1:
+    A 3
+    B 1
+    C 5
+    D 2
+    E 4
+
+
+Exercitiul 2:
+    Mereu vom avea nevoie de securitate.
+    Trebuie sa ne punem in pozitia adversarului.
+
+
+Exercitiul 3:
+    36 -> 100100
+    100100 -> 4+32 = 36
+
+    2AB3 -> 10101010110011
+    10101010110011 -> 2AB3
+
+
+Exercitiul 4:
+    MATEI -> 77 65 84 69 73
+    66 82 65 86 79 -> BRAVO
+
+
+Exercitiul 5:
+    MATEI -> TUFURUk=
+    U3VudCBzdHVkZW50IGxhIEZNSS4= -> Sunt student la FMI.
+
+
+Exercitiul 6:
+    malware = software creat pentru a deteriora sau pentru a obtine acces neautorizat la un computer/retea de computere.
+    virus = cod care e capabil sa se multiplice pe sine si are de obicei rol negativ, cum ar fi coruperea unui pc.
+    dropper = program care este destinat extractiei de fisiere malitioase.
+    downloader = program capabil sa se instaleze singur si sa dea acces fisierelor straine la computer.
+    trojan = program care opreste accesul exterior la pc si il controleaza singur.
+    spyware = program care transmite informatiile computerului catre un alt hardware.
+    riskware = un program care este riscant de folosit din cauza vulnerabilitatilor sale. Nu este neaparat malitios.
+    ransomware = un software destinat sa blocheze accesul la o retea de calculatoare pana cand este platita o suma de bani.
+    adware = software care downloadeaza si arata automat materiale de publicitate(pop-upuri sau flaguri) cand calculatorul este online.
+    worm = software daunator care se copiaza pe sine in scopul de a se imparti la alte calculatoare.
+    obfuscare = "uratirea" codului in scopul de a-l face ilizibil pentru a-i ascunde functionalitatea.

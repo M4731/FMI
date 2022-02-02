@@ -1,0 +1,46 @@
+Mîndruleanu Matei Daniel -  tema 2 SSI
+
+Exercitiul 1:
+    A 4
+    B 2
+    C 5
+    D 1
+    E 6
+    F 3
+
+Exercitiul 2:
+    1 - confidentialitate
+    2 - disponibilitate
+    3 - integritate
+    4 - confidentialitate
+    5 - integritate
+
+    exemple:
+  confidentialitate : algoritmi de criptare simetrica si asimetrica
+  integritate : semnatura digitala
+  disponibilitate : -
+
+Exercitiul 3:
+    1 - F
+    2 - A
+    3 - F
+
+Exercitiul 4:
+    O functie f(n) este ne neglijabila daca exista o functie polinomiala g(n) mai mare decat aceasta ∀ n.
+
+    1 - f(n) = 2, g(n) = 1 functie polinomiala  < f(n) = 2 oricare ar fi n => f este ne-neglijabila.
+    2 - f(n) = 1/2000, g(n) = 1/2001 functie polinomiala < f(n) = 1/2000 oricare ar fi n => f este ne-neglijabila.
+    3 - f(n) = 1/(n^2000), g(n) = 1/(n^2001) functie polinomiala < f(n) = 1/(n^2000) oricare ar fi n => f este ne-neglijabila.
+    4 - f(n) = 1/(2^n) este neglijabila deoarece 2^n este exponentiala, deci nu exista o functie polinomiala care inversata sa fie mai mica decat 1/(2^n).
+    5 - f(n) = f1(n) + f2(n), unde f1(n) si f2(n) sunt neglijabile  => f(n) este neglijabila (proprietate) <> suma a 2 functii neglijabile este tot neglijabila.
+    6 - f(n) = f1(n) + f2(n), unde f1(n) este neglujabila si f2(n) este ne-neglijabila => f(n) ne-neglijabila. 
+	exemplu : f(n) = 2<functie ne-neglijabila> + g(n) = 1/(2^n)<functie neglijabila> -> functie ne-neglijabila.
+
+Exercitiul 5:
+    Un sistem de securitate perfecta ar necesita foarte multe resurse (memorie + timp). 
+    O cheie bine aleasa este extrem de improbabil de spart, dar totusi daca cineva ar incerca sa o sparga, acest proces ar dura foarte mult timp.
+    
+Exercitiul 6:
+    1 - Am 512 biti, fiecare bit poate fi 0 sau 1, deci pot fi 2^512 chei 
+    2 - 2^512 : 2^30 = 2^482 secunde.
+    3 - Atacul nu este eficient deoarece consuma inuman de mult timp.

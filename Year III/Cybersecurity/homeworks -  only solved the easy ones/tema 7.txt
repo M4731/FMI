@@ -1,0 +1,34 @@
+Mîndruleanu Matei Daniel -  tema 7 SSI
+
+Exercitiul 1:
+    a A	 
+    b F
+    c A       
+    d A	  
+    e F	  
+    f F	  
+    g F
+
+
+
+Exercitiul 3:
+exemplul 1: parolele se cripteaza si nu se hasheaza; se foloseste aceeasi cheie de criptare => usor de decodat
+exemplul 2: hashpw foloseste salturi generate random la fiecare apel, deci nu va putea niciodata sa zica daca un username a mai fost deja folosit sau nu
+exemplul 3: sha256 nu are salt, ar fi mai bine sa fie folosit bcrypt
+exemplul 4: se foloseste acelasi salt la toate parolele
+exemplul 5: nu se recomanda md5 pentru parole
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -
