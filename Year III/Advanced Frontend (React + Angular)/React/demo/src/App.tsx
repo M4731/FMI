@@ -1,13 +1,15 @@
-const App = (): JSX.Element => {
-    var Chance = require('chance');
+import Person from "./Person";
 
+const App = (): JSX.Element => {
+
+    var Chance = require('chance');
     // Instantiate Chance so it can be used
     var chance = new Chance();
 
-    // Use Chance here.
     const name = chance.name()
-    
-    return <div>Hello from AppComponent</div>
+    const age = chance.age()
+
+    return <div><Person personName={name} age={age}/></div>
 };
 
 export default App; 
